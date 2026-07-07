@@ -1,0 +1,13 @@
+# Mengabaikan Virtual Environment Python
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Mengabaikan file konfigurasi IDE (jika pakai VS Code / PyCharm)
+.vscode/
+.idea/
+
+# Mengabaikan variabel lingkungan/file rahasia (API Key Gemini dll nanti)
+.env

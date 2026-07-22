@@ -7,9 +7,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from database import Base
+from db.database import Base
 
-import models
+import models.user
 
 # Muat file .env agar os.getenv bisa membaca datanya
 load_dotenv()

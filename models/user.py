@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean
 from sqlalchemy.sql import func
-from database import Base
+from db.database import Base
 
 # --- Models  ---
 

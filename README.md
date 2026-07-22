@@ -87,3 +87,8 @@ FastAPI secara otomatis menyediakan dokumentasi interaktif yang dapat diakses me
 [x] Sistem manajemen skema database tracking menggunakan Alembic Migrations.
 [ ] Implementasi Pembersihan Teks Catatan Konseling (NLP Sastrawi Stemming).
 [ ] Integrasi Multi-LLM Decision Maker (Gemini API Cloud & Ollama Local Fallback).
+
+# alembic
+
+alembic revision --autogenerate -m "init"
+alembic upgrade head

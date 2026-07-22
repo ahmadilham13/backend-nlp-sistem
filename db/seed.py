@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
-from database import SessionLocal, engine
+from db.database import SessionLocal, engine
 from sqlalchemy import text
-from security import get_password_hash
-import models
+from core.security import get_password_hash
+from models.user import User
 
 def seed_data():
     # 1. Buka session database
@@ -16,12 +16,12 @@ def seed_data():
 
         print("Memulai proses seeding data...")
 
-        user_exist = db.query(models.User).first()
+        user_exist = db.query(User).first()
         if not user_exist:
             # Contoh data User untuk Login (Password idealnya di-hash nanti)
             user_baru = [
-                models.User(username="admin", email="admin@univ.ac.id", password=get_password_hash("password123"), role="admin"),
-                models.User(username="dosen1", email="ahmad.ilham@univ.ac.id", password=get_password_hash("password123"), role="dosen")
+                User(username="admin", email="admin@univ.ac.id", password=get_password_hash("password123"), role="admin"),
+                User(username="dosen1", email="ahmad.ilham@univ.ac.id", password=get_password_hash("password123"), role="dosen")
             ]
             db.add_all(user_baru)
             print("-> Data tabel 'users' berhasil ditambahkan.")

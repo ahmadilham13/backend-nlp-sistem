@@ -80,3 +80,10 @@ Server akan berjalan secara default di alamat: **http://127.0.0.1:8000**
 # 📄 Dokumentasi API (Swagger UI)
 FastAPI secara otomatis menyediakan dokumentasi interaktif yang dapat diakses melalui browser di:
 **🔗 http://127.0.0.1:8000/docs**
+
+## 💡 Fitur Utama yang Dikembangkan (Roadmap)
+[x] Arsitektur RESTful API dasar dengan FastAPI.
+[x] Integrasi database relasional PostgreSQL via SQLAlchemy ORM.
+[x] Sistem manajemen skema database tracking menggunakan Alembic Migrations.
+[ ] Implementasi Pembersihan Teks Catatan Konseling (NLP Sastrawi Stemming).
+[ ] Integrasi Multi-LLM Decision Maker (Gemini API Cloud & Ollama Local Fallback).

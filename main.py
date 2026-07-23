@@ -12,8 +12,8 @@ app = FastAPI(
     version="1.0.0"
 )
 
-app.include_router(auth.router)
-app.include_router(user.router)
+app.include_router(auth.router, prefix="/api/v1/auth")
+app.include_router(user.router, prefix="/api/v1")
 
 # Endpoint 1: Tes apakah API hidup (Root Endpoint)
 @app.get("/")

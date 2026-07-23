@@ -1,3 +1,7 @@
 DATABASE_URL=postgresql://postgres:@localhost:5432/nlp_db
 SECRET_KEY=super-secret-key-please-change-in-production
 ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+OLLAMA_BASE_URL=
+OLLAMA_MODEL=
+GEMINI_API_KEY=

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from db.database import get_db
 
-from routers import auth, user
+from routers import auth, user, mahasiswa, konseling, ews
 
 
 app = FastAPI(
@@ -14,6 +14,9 @@ app = FastAPI(
 
 app.include_router(auth.router, prefix="/api/v1/auth")
 app.include_router(user.router, prefix="/api/v1")
+app.include_router(mahasiswa.router, prefix="/api/v1")
+app.include_router(konseling.router, prefix="/api/v1")
+app.include_router(ews.router, prefix="/api/v1")
 
 # Endpoint 1: Tes apakah API hidup (Root Endpoint)
 @app.get("/")

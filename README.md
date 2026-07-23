@@ -53,6 +53,11 @@ Pastikan virtual environment telah aktif (ditandai dengan teks (venv) di termina
 pip install -r requirements.txt
 ```
 
+**Catatan:** Jika Anda menambahkan *library* baru selama pengembangan, pastikan untuk memperbarui file `requirements.txt` dengan menjalankan perintah berikut:
+```bash
+pip freeze > requirements.txt
+```
+
 ## 4. Konfigurasi Database
 1. Buat database kosong bernama nlp_db di PostgreSQL lokal Anda.
 2. jalankan command 

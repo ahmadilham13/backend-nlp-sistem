@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Enum, JSON
+import uuid
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Enum, JSON, Uuid
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from db.database import Base
@@ -9,8 +10,8 @@ from models.enum.statusPenanganan import StatusPenanganan
 class EwsAlert(Base):
     __tablename__ = "ews_alerts"
 
-    id = Column(Integer, primary_key=True, index=True)
-    mahasiswa_id = Column(Integer, ForeignKey("mahasiswa.id"), nullable=False)
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4, index=True)
+    mahasiswa_id = Column(Uuid, ForeignKey("mahasiswa.id"), nullable=False)
     
     tingkat_risiko = Column(Enum(TingkatRisiko), nullable=False)
     skor_risiko = Column(Integer, nullable=False)

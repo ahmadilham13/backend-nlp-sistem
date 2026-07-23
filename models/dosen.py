@@ -1,11 +1,12 @@
-from sqlalchemy import Column, Integer, String, DateTime
+import uuid
+from sqlalchemy import Column, String, DateTime, Uuid
 from sqlalchemy.sql import func
 from db.database import Base
 
 class Dosen(Base):
     __tablename__ = "dosen"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4, index=True)
     nidn = Column(String, unique=True, index=True, nullable=False)
     nama = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)

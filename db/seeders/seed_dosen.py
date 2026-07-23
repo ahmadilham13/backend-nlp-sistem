@@ -1,12 +1,14 @@
 from sqlalchemy.orm import Session
 from models.dosen import Dosen
+from .constants import DOSEN_ID_1
 
 def seed_dosen(db: Session):
     print("Seeding data Dosen...")
     dosen_list = [
         Dosen(
-            nidn="0412089001",
-            nama="Dr. Ahmad Ilham, M.T.",
+            id=DOSEN_ID_1,
+            nidn="0011223344",
+            nama="Dr. Ahmad Ilham, S.Kom., M.Kom.",
             email="ahmad.ilham@univ.ac.id"
         ),
         Dosen(

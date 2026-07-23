@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import Dict, Any
+from uuid import UUID
 
 from db.database import get_db
 from models.mahasiswa import Mahasiswa
@@ -12,7 +13,7 @@ from core.security import get_current_user
 router = APIRouter(prefix="/ews", tags=["EWS Engine & XAI"], dependencies=[Depends(get_current_user)])
 
 @router.get("/assess/{mahasiswa_id}", response_model=Dict[str, Any])
-def assess_mahasiswa_risk(mahasiswa_id: int, db: Session = Depends(get_db)):
+def assess_mahasiswa_risk(mahasiswa_id: UUID, db: Session = Depends(get_db)):
     """
     Menganalisis tingkat risiko mahasiswa berdasarkan ID (EWS Engine)
     dan menghasilkan narasi Explainable AI otomatis (Ollama / Gemini).

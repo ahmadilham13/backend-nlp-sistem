@@ -4,6 +4,8 @@ from models.dosen import Dosen
 from models.mahasiswa import Mahasiswa, StatusMahasiswa
 from models.catatanKonseling import CatatanKonseling, KategoriMasalah
 from models.ews_alert import EwsAlert, StatusPenanganan
+from models.mata_kuliah import MataKuliah
+from models.akademik import AkademikSemester, NilaiMataKuliah
 
 __all__ = [
     "Base",
@@ -14,5 +16,8 @@ __all__ = [
     "CatatanKonseling",
     "KategoriMasalah",
     "EwsAlert",
-    "StatusPenanganan"
+    "StatusPenanganan",
+    "MataKuliah",
+    "AkademikSemester",
+    "NilaiMataKuliah"
 ]

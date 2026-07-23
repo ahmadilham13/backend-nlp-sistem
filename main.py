@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from db.database import get_db
 
-from routers import auth, user, mahasiswa, konseling, ews, ews_alert, analytics
+from routers import auth, user, mahasiswa, konseling, ews, ews_alert, analytics, mata_kuliah, akademik, dosen
 
 
 app = FastAPI(
@@ -29,6 +29,9 @@ app.include_router(konseling.router, prefix="/api/v1")
 app.include_router(ews.router, prefix="/api/v1")
 app.include_router(ews_alert.router, prefix="/api/v1")
 app.include_router(analytics.router, prefix="/api/v1")
+app.include_router(mata_kuliah.router, prefix="/api/v1")
+app.include_router(akademik.router, prefix="/api/v1")
+app.include_router(dosen.router, prefix="/api/v1")
 
 # # Endpoint 1: Tes apakah API hidup (Root Endpoint)
 # @app.get("/")

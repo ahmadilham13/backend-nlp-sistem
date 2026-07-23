@@ -2,6 +2,7 @@ import math
 from fastapi import APIRouter, Depends, Query, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+from uuid import UUID
 
 from db.database import get_db
 from models.mahasiswa import Mahasiswa
@@ -51,7 +52,7 @@ def get_all_mahasiswa(
     )
 
 @router.get("/{id}", response_model=MahasiswaResponse)
-def get_mahasiswa_by_id(id: int, db: Session = Depends(get_db)):
+def get_mahasiswa_by_id(id: UUID, db: Session = Depends(get_db)):
     mhs = db.query(Mahasiswa).filter(Mahasiswa.id == id).first()
     if not mhs:
         raise HTTPException(status_code=404, detail="Mahasiswa tidak ditemukan!")

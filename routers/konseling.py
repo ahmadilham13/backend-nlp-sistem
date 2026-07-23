@@ -2,6 +2,7 @@ import math
 from fastapi import APIRouter, Depends, Query, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+from uuid import UUID
 
 from db.database import get_db
 from models.catatanKonseling import CatatanKonseling
@@ -47,7 +48,7 @@ def create_catatan_konseling(
 
 @router.get("/mahasiswa/{mahasiswa_id}", response_model=PageResponse[CatatanKonselingResponse])
 def get_catatan_by_mahasiswa(
-    mahasiswa_id: int,
+    mahasiswa_id: UUID,
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
     db: Session = Depends(get_db)

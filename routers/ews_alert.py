@@ -1,4 +1,5 @@
 import math
+from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 from typing import Optional
@@ -19,7 +20,7 @@ from core.security import get_current_user
 router = APIRouter(prefix="/ews/alerts", tags=["EWS Alerts & Intervensi"], dependencies=[Depends(get_current_user)])
 
 @router.post("/generate/{mahasiswa_id}", response_model=EwsAlertResponse, status_code=status.HTTP_201_CREATED)
-def generate_and_save_alert(mahasiswa_id: int, db: Session = Depends(get_db)):
+def generate_and_save_alert(mahasiswa_id: UUID, db: Session = Depends(get_db)):
     """
     Menjalankan kalkulasi EWS + XAI lalu menyimpan hasil alert-nya ke database.
     """
@@ -82,7 +83,7 @@ def get_all_alerts(
 
 @router.patch("/{alert_id}", response_model=EwsAlertResponse)
 def update_alert_status(
-    alert_id: int, 
+    alert_id: UUID, 
     data: EwsAlertUpdate, 
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)

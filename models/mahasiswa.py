@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, Float, ForeignKey, DateTime, Enum
+import uuid
+from sqlalchemy import Column, Integer, String, Text, Float, ForeignKey, DateTime, Enum, Uuid
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from db.database import Base
@@ -7,11 +8,12 @@ from models.enum.statusMahasiswa import StatusMahasiswa
 class Mahasiswa(Base):
     __tablename__ = "mahasiswa"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Uuid, primary_key=True, default=uuid.uuid4, index=True)
     nim = Column(String, unique=True, index=True, nullable=False)
     nama = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     angkatan = Column(Integer, nullable=False)
+    prodi = Column(String, nullable=True) # Tambahan prodi
     status = Column(Enum(StatusMahasiswa), default=StatusMahasiswa.AKTIF, nullable=False)
     
     # Indikator Akademik Dasar
@@ -21,7 +23,7 @@ class Mahasiswa(Base):
     total_sks = Column(Integer, default=0)
 
     # Foreign Key ke Dosen PA
-    dosen_pa_id = Column(Integer, ForeignKey("dosen.id"), nullable=True)
+    dosen_pa_id = Column(Uuid, ForeignKey("dosen.id"), nullable=True)
 
     # Timestamps
     created_at = Column(DateTime(timezone=True), server_default=func.now())

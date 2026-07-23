@@ -3,12 +3,17 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from db.database import get_db
 
+from routers import auth, user
+
 
 app = FastAPI(
     title="Adaptive Early Warning System API",
     description="Backend Engine menggunakan FastAPI dan PostgreSQL",
     version="1.0.0"
 )
+
+app.include_router(auth.router)
+app.include_router(user.router)
 
 # Endpoint 1: Tes apakah API hidup (Root Endpoint)
 @app.get("/")

@@ -67,5 +67,5 @@ ews-backend/
 - [x] Native bcrypt utility functions in security.py (get_password_hash, verify_password).
 - [x] Base models created: User and Dosen.
 - [x] Fresh DB Seeder script created (seed.py).
-- [ ] NEXT STEP: Create Pydantic Schemas for Request/Response validation.
-- [ ] NEXT STEP: Implement JWT Authentication Endpoints (/login, /register, /me).
+- [x] Create Pydantic Schemas for Request/Response validation.
+- [x] Implement JWT Authentication Endpoints (/login, /me).

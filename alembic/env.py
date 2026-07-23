@@ -9,7 +9,7 @@ from alembic import context
 
 from db.database import Base
 
-import models.user
+import models
 
 # Muat file .env agar os.getenv bisa membaca datanya
 load_dotenv()

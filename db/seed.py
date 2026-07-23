@@ -2,41 +2,41 @@ from sqlalchemy.orm import Session
 from db.database import SessionLocal, engine
 from sqlalchemy import text
 from core.security import get_password_hash
-from models.user import User
+from db.seeders import seed_users, seed_dosen, seed_mahasiswa, seed_konseling
 
-def seed_data():
-    # 1. Buka session database
-    db = SessionLocal()
+def run_seeders():
+    db: Session = SessionLocal()
     
     try:
-        print("Membersihkan data lama...")
-        db.execute(text("TRUNCATE TABLE users RESTART IDENTITY CASCADE;"))
+        print("==========================================")
+        print("MEMULAI PROSES FRESH SEEDING DATABASE")
+        print("==========================================")
+
+        # 1. TRUNCATE semua tabel sekaligus dengan urutan yang benar (CASCADE)
+        print("Membersihkan seluruh data lama...")
+        db.execute(text(
+            "TRUNCATE TABLE users, dosen, mahasiswa, catatan_konseling RESTART IDENTITY CASCADE;"
+        ))
         db.commit()
-        print("-> Database berhasil dibersihkan.")
+        print("-> Database berhasil dibersihkan (Primary Keys di-reset).\n")
 
-        print("Memulai proses seeding data...")
+        # 2. Jalankan seeder berurutan sesuai relasi Foreign Key
+        seed_users(db)
+        seed_dosen(db)
+        seed_mahasiswa(db)
+        seed_konseling(db)
 
-        user_exist = db.query(User).first()
-        if not user_exist:
-            # Contoh data User untuk Login (Password idealnya di-hash nanti)
-            user_baru = [
-                User(username="admin", email="admin@univ.ac.id", password=get_password_hash("password123"), role="admin"),
-                User(username="dosen1", email="ahmad.ilham@univ.ac.id", password=get_password_hash("password123"), role="dosen")
-            ]
-            db.add_all(user_baru)
-            print("-> Data tabel 'users' berhasil ditambahkan.")
-        else:
-            print("-> Tabel 'users' sudah memiliki data, skipping...")
-
-        # 3. Commit semua perubahan ke PostgreSQL
+        # 3. Commit seluruh transaksi jika semua lancar
         db.commit()
-        print("Proses seeding selesai dengan sukses!")
+        print("\n==========================================")
+        print("PROSES SEEDING SELESAI DENGAN SUKSES!")
+        print("==========================================")
 
     except Exception as e:
         db.rollback()
-        print(f"Terjadi kesalahan saat seeding: {e}")
+        print(f"\n[ERROR] Terjadi kesalahan saat seeding: {e}")
     finally:
         db.close()
 
 if __name__ == "__main__":
-    seed_data()
+    run_seeders()

@@ -27,14 +27,23 @@ ews-backend/
 │   ├── database.py     # SQLAlchemy engine and get_db dependency
 │   └── seed.py         # Seed script for initial/fresh database data
 ├── models/             # SQLAlchemy ORM models (Database Schemas)
+│   ├── enum/           # Enum definitions (Status, TingkatRisiko, dll)
 │   ├── user.py
-│   └── dosen.py
+│   ├── dosen.py
+│   └── mahasiswa.py
 ├── schemas/            # Pydantic models (Data validation & API payloads)
 │   ├── user.py
-│   └── dosen.py
+│   ├── dosen.py
+│   └── mahasiswa.py
 ├── routers/            # FastAPI Endpoint Handlers (API Controllers)
 │   ├── auth.py
-│   └── user.py
+│   ├── ews.py
+│   ├── ews_alert.py
+│   └── mahasiswa.py
+├── services/           # Logika Bisnis, NLP, dan AI Engine
+│   ├── ews_engine.py   # Kalkulasi skor risiko akademik EWS
+│   ├── nlp_service.py  # Pembersihan & stemming catatan konseling
+│   └── xai_service.py  # Eksekusi LLM (Ollama/Gemini) untuk XAI
 ├── main.py             # App entry point
 ├── alembic.ini         # Alembic configuration file
 ├── .env                # Local environment secrets (IGNORED BY GIT)
@@ -69,3 +78,23 @@ ews-backend/
 - [x] Fresh DB Seeder script created (seed.py).
 - [x] Create Pydantic Schemas for Request/Response validation.
 - [x] Implement JWT Authentication Endpoints (/login, /me).
+- [x] Implement Data Models, Schemas, & Endpoints for Mahasiswa, Dosen & Konseling.
+- [x] Implement Pembersihan Teks Catatan Konseling (NLP Sastrawi Stemming).
+- [x] Implement EWS Engine (Kalkulasi Risiko) & Integrasi LLM Decision Maker (XAI).
+- [x] Implement EWS Alerts Tracking & Dashboard Endpoints.
+
+### Next Phases (Frontend Readiness)
+**Fase 1: Keamanan & Autentikasi (JWT + RBAC)**
+- [x] 1.1 Pasang JWT Dependency di Endpoint Konseling (routers/konseling.py).
+- [x] 1.2 Pasang Proteksi Role (RBAC) pada Endpoint EWS & Alert (routers/ews_alert.py).
+
+**Fase 2: Endpoint Analitik & Dashboard Summary**
+- [x] 2.1 Buat Router Analytics (routers/analytics.py) untuk data agregat dashboard.
+
+**Fase 3: Integrasi & Konfigurasi Server (CORS & Environment)**
+- [x] 3.1 Tambahkan CORS Middleware di main.py.
+- [x] 3.2 Standardisasi Environment Variables (.env.example).
+
+**Fase 4: Pengujian Akhir & Pembersihan Data (Final Check)**
+- [x] 4.1 Jalankan Reset Seeder Utuh (seed.py).
+- [x] 4.2 Sanity Test via Swagger UI (/docs) untuk End-to-End flow.

@@ -7,8 +7,9 @@ from db.database import get_db
 from models.mahasiswa import Mahasiswa
 from schemas.mahasiswa import MahasiswaCreate, MahasiswaResponse, MahasiswaUpdate
 from schemas.pagination import PageResponse
+from core.security import get_current_user
 
-router = APIRouter(prefix="/mahasiswa", tags=["Mahasiswa"])
+router = APIRouter(prefix="/mahasiswa", tags=["Mahasiswa"], dependencies=[Depends(get_current_user)])
 
 @router.post("/", response_model=MahasiswaResponse, status_code=status.HTTP_201_CREATED)
 def create_mahasiswa(data: MahasiswaCreate, db: Session = Depends(get_db)):

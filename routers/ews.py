@@ -7,8 +7,9 @@ from models.mahasiswa import Mahasiswa
 from models.catatanKonseling import CatatanKonseling
 from services.ews_engine import ews_engine
 from services.xai_service import xai_service
+from core.security import get_current_user
 
-router = APIRouter(prefix="/ews", tags=["EWS Engine & XAI"])
+router = APIRouter(prefix="/ews", tags=["EWS Engine & XAI"], dependencies=[Depends(get_current_user)])
 
 @router.get("/assess/{mahasiswa_id}", response_model=Dict[str, Any])
 def assess_mahasiswa_risk(mahasiswa_id: int, db: Session = Depends(get_db)):

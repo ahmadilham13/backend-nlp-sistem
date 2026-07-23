@@ -12,8 +12,11 @@ from schemas.ews_alert import EwsAlertResponse, EwsAlertUpdate
 from schemas.pagination import PageResponse
 from services.ews_engine import ews_engine
 from services.xai_service import xai_service
+from models.user import User
+from models.dosen import Dosen
+from core.security import get_current_user
 
-router = APIRouter(prefix="/ews/alerts", tags=["EWS Alerts & Intervensi"])
+router = APIRouter(prefix="/ews/alerts", tags=["EWS Alerts & Intervensi"], dependencies=[Depends(get_current_user)])
 
 @router.post("/generate/{mahasiswa_id}", response_model=EwsAlertResponse, status_code=status.HTTP_201_CREATED)
 def generate_and_save_alert(mahasiswa_id: int, db: Session = Depends(get_db)):
@@ -78,13 +81,28 @@ def get_all_alerts(
     }
 
 @router.patch("/{alert_id}", response_model=EwsAlertResponse)
-def update_alert_status(alert_id: int, data: EwsAlertUpdate, db: Session = Depends(get_db)):
+def update_alert_status(
+    alert_id: int, 
+    data: EwsAlertUpdate, 
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
     """
     Memperbarui status tindakan intervensi Dosen PA (misal merubah ke IN_PROGRESS / RESOLVED).
     """
     alert = db.query(EwsAlert).filter(EwsAlert.id == alert_id).first()
     if not alert:
         raise HTTPException(status_code=404, detail="EWS Alert tidak ditemukan!")
+        
+    # Validasi RBAC
+    if current_user.role not in ["dosen", "admin"]:
+        raise HTTPException(status_code=403, detail="Akses ditolak. Hanya Dosen atau Admin yang dapat memperbarui status.")
+        
+    if current_user.role == "dosen":
+        dosen = db.query(Dosen).filter(Dosen.email == current_user.email).first()
+        dosen_id = dosen.id if dosen else current_user.id
+        if alert.mahasiswa.dosen_pa_id != dosen_id:
+            raise HTTPException(status_code=403, detail="Akses ditolak. Anda bukan Dosen PA dari mahasiswa ini.")
 
     alert.status_penanganan = data.status_penanganan
     if data.catatan_penanganan is not None:

@@ -8,15 +8,26 @@ from models.catatanKonseling import CatatanKonseling
 from schemas.konseling import CatatanKonselingCreate, CatatanKonselingResponse
 from schemas.pagination import PageResponse
 from services.nlp_service import nlp_service
+from models.user import User
+from models.dosen import Dosen
+from core.security import get_current_user
 
-router = APIRouter(prefix="/konseling", tags=["Catatan Konseling"])
+router = APIRouter(prefix="/konseling", tags=["Catatan Konseling"], dependencies=[Depends(get_current_user)])
 
 @router.post("/", response_model=CatatanKonselingResponse, status_code=status.HTTP_201_CREATED)
 def create_catatan_konseling(
     data: CatatanKonselingCreate, 
-    dosen_id: int = 1, # Sementara hardcode ID Dosen PA (nanti diganti dari token JWT)
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    # Validasi RBAC
+    if current_user.role not in ["dosen", "admin"]:
+        raise HTTPException(status_code=403, detail="Akses ditolak. Hanya Dosen atau Admin yang dapat menambah catatan.")
+    
+    # Cari dosen_id berdasarkan user yang login (fallback ke user.id)
+    dosen = db.query(Dosen).filter(Dosen.email == current_user.email).first()
+    dosen_id = dosen.id if dosen else current_user.id
+
     # 1. Jalankan pembersihan NLP Sastrawi secara otomatis pada teks mentah
     cleansed_text = nlp_service.preprocess_catatan(data.catatan_teks)
 

@@ -4,6 +4,7 @@ from uuid import UUID
 from datetime import datetime
 from models.enum.tingkatRisiko import TingkatRisiko
 from models.enum.statusPenanganan import StatusPenanganan
+from schemas.mahasiswa import MahasiswaBase
 
 class EwsAlertUpdate(BaseModel):
     status_penanganan: StatusPenanganan
@@ -19,6 +20,7 @@ class EwsAlertResponse(BaseModel):
     rekomendasi_intervensi: List[str]
     status_penanganan: StatusPenanganan
     catatan_penanganan: Optional[str] = None
+    mahasiswa: Optional[MahasiswaBase] = None
     created_at: datetime
     updated_at: Optional[datetime] = None
 
